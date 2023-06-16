@@ -10,7 +10,7 @@ For the first experiment "zero_mean", you can start the training with
 python train.py
 ```
 
-For the last two experiments, "portfolio_management" and "inventory management", you can start the training with
+For the last two experiments, "portfolio_management" and "inventory_management", you can start the training with
 ```
 python train_ppo.py
 python train_qppo.py
