@@ -25,7 +25,7 @@ class Options(object):
         parser.add_argument('--emb_dim', type=list, default=[8,8])
         parser.add_argument('--gamma', type=float, default=0.99)
         parser.add_argument('--lr_decay_freq', type=int, default=2.5e3)
-        parser.add_argument('--lr_decay_rate', type=int, default=0.8)
+        parser.add_argument('--lr_decay_rate', type=float, default=0.8)
 
         args = parser.parse_args(args=[])
         if args.algo_name == 'QPO':
