@@ -23,7 +23,7 @@ class Options(object):
 
         parser.add_argument('--lr', type=float, default=2e-5)
         parser.add_argument('--lr_decay_freq', type=int, default=1e4)
-        parser.add_argument('--lr_decay_rate', type=int, default=0.9)
+        parser.add_argument('--lr_decay_rate', type=float, default=0.9)
 
         parser.add_argument('--est_interval', type=int, default=200)
         parser.add_argument('--log_interval', type=int, default=200)
