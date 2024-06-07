@@ -10,7 +10,14 @@ For "toy_example", "fair_lottery", and "beyond_greed", you can start the trainin
 python train.py
 ```
 
-For the last two experiments, "portfolio_management" and "inventory_management", you can start the training with
+For "inventory_management", you can start the training with
+```
+python train_ppo.py
+python train_qppo.py
+python train_qrdqn.py
+```
+
+For "portfolio_management", you can start the training with
 ```
 python train_ppo.py
 python train_qppo.py
