@@ -5,7 +5,7 @@ Official codes for "Quantile-Based Deep Reinforcement Learning using Two-Timesca
 The codes are implementable on both Windows and Linux with Python 3.9 and PyTorch 1.9.0+cu111.
  
 ## How to Run
-For the first two experiments, "toy_example" and "fair_lottery", you can start the training with
+For "toy_example", "fair_lottery", and "beyond_greed", you can start the training with
 ```
 python train.py
 ```
