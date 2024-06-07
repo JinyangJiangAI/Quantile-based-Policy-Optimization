@@ -52,3 +52,26 @@ class Critic(nn.Module):
             x = x.squeeze(0)
         return x
 
+
+class QNet(nn.Module):
+    """
+    Q-value Network
+    """
+    def __init__(self, state_dim, action_dim):
+        super(QNet, self).__init__()
+        self.conv_block = nn.Sequential(nn.Conv1d(in_channels=state_dim[1], out_channels=32, kernel_size=3, padding=0), nn.Tanh(),
+                                        nn.Conv1d(in_channels=32, out_channels=64, kernel_size=3, padding=0), nn.Tanh())
+        # self.conv_block = nn.Sequential(nn.Conv1d(in_channels=state_dim[1], out_channels=64, kernel_size=3, padding=0), nn.Tanh())
+        self.fc_block = nn.Sequential(nn.Linear(in_features=64 * (state_dim[0] - 4), out_features=action_dim))
+
+    def forward(self, x):
+        is_batched = x.dim() == 3
+        if not is_batched:
+            x = x.unsqueeze(0)
+        x = self.conv_block(x)
+        x = torch.reshape(x, (x.shape[0], -1))
+        out = self.fc_block(x)
+        if not is_batched:
+            out = out.squeeze(0)
+        return out
+
