@@ -71,15 +71,13 @@ class QPO(object):
         return q
 
     def train(self):
-        epi_rewards = []
         disc_epi_rewards = []
         for i_episode in range(self.max_episode+1):
-            epi_reward, disc_epi_reward, disc_factor, state = 0, 0, 1, self.env.reset()
+            disc_epi_reward, disc_factor, state = 0, 1, self.env.reset()
             while True:
                 state = state.flatten()
                 action = self.choose_action(state)
                 state, reward, done, _ = self.env.step(action)
-                epi_reward += reward
                 disc_epi_reward += disc_factor * reward
                 disc_factor *= self.gamma
                 self.memory.rewards.append(reward)
@@ -92,22 +90,15 @@ class QPO(object):
             if i_episode % self.log_interval == 0:
                 buf = self.env.render(log_dir=None)
                 self.writer.add_scalar('count/stepA', buf[0], i_episode)
-            epi_rewards.append(epi_reward)
-            self.writer.add_scalar('reward/raw_reward', epi_reward, i_episode)
             disc_epi_rewards.append(disc_epi_reward)
             self.writer.add_scalar('disc_reward/raw_reward', disc_epi_reward, i_episode)
 
             if i_episode % self.log_interval == 0 and i_episode != 0:
-                lb = max(0,len(epi_rewards)-self.est_interval)
-                a_reward, q_reward = np.mean(epi_rewards[lb:]), np.percentile(epi_rewards[lb:], self.q_alpha*100)
-                self.writer.add_scalar('reward/aver_reward', a_reward, i_episode)
-                self.writer.add_scalar('reward/quantile_reward', q_reward, i_episode)
-
+                lb = max(0,len(disc_epi_rewards)-self.est_interval)
                 disc_a_reward, disc_q_reward = np.mean(disc_epi_rewards[lb:]), np.percentile(disc_epi_rewards[lb:], self.q_alpha*100)
                 self.writer.add_scalar('disc_reward/aver_reward', disc_a_reward, i_episode)
                 self.writer.add_scalar('disc_reward/quantile_reward', disc_q_reward, i_episode)
-                print(f'Epi:{i_episode:05d} || a_r:{a_reward:.03f} q_r:{q_reward:.03f} '
-                      + f'disc_a_r:{disc_a_reward:.03f} disc_q_r:{disc_q_reward:.03f}')
+                print(f'Epi:{i_episode:05d} || disc_a_r:{disc_a_reward:.03f} disc_q_r:{disc_q_reward:.03f}')
                 print(f'Epi:{i_episode:05d} || model Updated with lr:{self.scheduler.get_last_lr()[0]:.2e} '
                       + f'q_lr:{self.q_scheduler.get_last_lr()[0]:.2e} q_est:{float(self.q_est.detach().data):.03f}\n')
             self.scheduler.step()
