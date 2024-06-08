@@ -1,9 +1,20 @@
 # Quantile-based-Policy-Optimization
-Official codes for "Quantile-Based Deep Reinforcement Learning using Two-Timescale Policy Gradient Algorithms"
+Official code for "Quantile-Based Deep Reinforcement Learning using Two-Timescale Policy Gradient Algorithms"
 
 ## Create Environment
-The codes are implementable on both Windows and Linux with Python 3.9 and PyTorch 1.9.0+cu111.
- 
+The code can run on Windows and Linux with Python 3.9 and PyTorch 1.9.0+cu111.
+
+## Experiment List
+**fair_lottery**: comparison between QPO/QPPO and mean-based algorithms.
+
+**beyond_greed**: comparison between QPO/QPPO and distributional reinforcement learning algorithms.
+
+**inventory_management**: application in multi-echelon supply chain inventory management.
+
+**toy_example**: extra experiment with all the theoretical assumptions satisfied.
+
+**portfolio_management**: additional business application in finance.
+
 ## How to Run
 For "toy_example", "fair_lottery", and "beyond_greed", you can start the training with
 ```
